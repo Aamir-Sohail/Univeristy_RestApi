@@ -33,12 +33,12 @@ $routes->setAutoRoute(true);
 // route since we don't have to scan directories.
 $routes->get('/', 'Home::index');
 
-//Teachers Routes For Projects
-$routes->post('/add','TeacherController::teacher_add');
-$routes->get('/find/(:num)','TeacherController::teacher_view_single/$1');
-$routes->get('/findall','TeacherController::view_all_data');
-$routes->put('/updated/(:num)','TeacherController::Update/$1');
-$routes->delete('/delete/(:num)','TeacherController::Delete/$1');
+//Course Routes For Projects
+$routes->post('/add','CourseController::course_add');
+$routes->get('/find/(:num)','CourseController::course_view_single/$1');
+$routes->get('/findall','CourseController::view_all_data');
+$routes->put('/updated/(:num)','CourseController::course_update/$1');
+$routes->delete('/delete/(:num)','CourseController::course_delete/$1');
 
 
 /*

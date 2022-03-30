@@ -10,11 +10,15 @@ class Teachers extends Migration
     {
         $this->forge->addField([
             'id'         => ['type' => 'INT', 'constraint' => 31, 'auto_increment'=> true, 'unsinged'=>true,],
-            'coursename'      => ['type' => 'varchar', 'constraint' => 31],
-            'leactures_course'      => ['type' => 'varchar', 'constraint' => 31],
+            'course_id'      => ['type' => 'varchar', 'constraint' => 31],
+            'name'      => ['type' => 'varchar', 'constraint' => 31],
+            'email'      => ['type' => 'varchar', 'constraint' => 31],
+            'password'      => ['type' => 'varchar', 'constraint' => 31],
+            'address'      => ['type' => 'varchar', 'constraint' => 31],
             'created_at' => ['type' => 'datetime', 'null' => true],
             'updated_at' => ['type' => 'datetime', 'null' => true],
-
+            'deleted_at' =>['type' => 'datetime', 'null' => true],
+        
          
         ]);
         $this->forge->addKey('id',true);
@@ -23,6 +27,7 @@ class Teachers extends Migration
 
     public function down()
     {
+   
         $this->forge->dropTable('teachers');
     }
 }
