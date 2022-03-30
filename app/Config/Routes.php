@@ -40,6 +40,11 @@ $routes->get('/findall','CourseController::view_all_data');
 $routes->put('/updated/(:num)','CourseController::course_update/$1');
 $routes->delete('/delete/(:num)','CourseController::course_delete/$1');
 
+// Teacher Routes For Projects..
+$routes->post('/register','TeacherController::Teacher_Register');
+$routes->post('/login','TeacherController::Teacher_Login');
+
+
 
 /*
  * --------------------------------------------------------------------

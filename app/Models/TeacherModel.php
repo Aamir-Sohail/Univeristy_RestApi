@@ -41,4 +41,40 @@ class TeacherModel extends Model
     protected $afterFind      = [];
     protected $beforeDelete   = [];
     protected $afterDelete    = [];
+    public function transBegin()
+    {
+
+        return $this->db->transBegin();
+    }
+
+
+    public function transRollBack()
+    {
+        return $this->db->transRollback();
+    }
+
+    public function transCommit()
+    {
+        return $this->db->transCommit();
+    }
+   
+    public function authenticate($user)
+    {
+    
+        $password = $user['password'];
+        $email = $user['email'];
+        $user = $this->getWhere(['email'=>$user['email'],'password' => $user['password']]);
+        if ($user->resultID->num_rows > 0) {
+            $user = $user->getRow();
+           
+
+            $verfiy = $password;
+            if ($verfiy) {
+                return  ['user_id' => $user->id, 'email' =>$user->email, 'isLoggedIn'=>true];
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
 }
