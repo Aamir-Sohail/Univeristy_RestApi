@@ -47,6 +47,8 @@ $routes->post('/login','TeacherController::Teacher_Login');
 // Students Routes For Projects..
 $routes->post('/std_register','StudentController::student_register');
 $routes->post('/std_login','StudentController::student_login');
+$routes->get('/view_all','StudentController::std_viewall');
+$routes->get('/view','StudentController::std_view');
 
 
 /*

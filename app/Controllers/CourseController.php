@@ -22,11 +22,15 @@ class CourseController extends ResourceController
     {
         $rules = [
             'coursename' => "required",
+            'teacher_id' => "required",
             'leactures_course' => "required",
         ];
         $message = [
             "coursename" => [
                 "required" => "CourseName is Required"
+            ],
+            "teacher_id" =>[
+                "required" =>"Teacher ID is Required"
             ],
             "leactures_course" => [
                 "required" => "leactures_course is Required"
@@ -42,6 +46,7 @@ class CourseController extends ResourceController
         } else {
             $courseModel = new CourseModel();
             $data['coursename'] = $this->request->getVar("coursename");
+            $data['teacher_id'] = $this->request->getVar("teacher_id");
             $data['leactures_course'] = $this->request->getVar("leactures_course");
             $courseModel->save($data);
             $response = [

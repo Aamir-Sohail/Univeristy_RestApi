@@ -9,8 +9,8 @@ class Courses extends Migration
     public function up(){
 
     $this->forge->addField([
-        'id'         => ['type' => 'INT', 'constraint' => 31, 'auto_increment'=> true, 'unsinged'=>true,],
-        'teacher_id'      => ['type' => 'varchar', 'constraint' => 31],
+        'id'         => ['type' => 'INT', 'constraint' => 10, 'auto_increment'=> true, 'unsinged'=>true,],
+        'teacher_id'      => ['type' => 'INT', 'constraint' => 8],
         'coursename'      => ['type' => 'varchar', 'constraint' => 31],
         'leactures_course'      => ['type' => 'varchar', 'constraint' => 31],
         'created_at' => ['type' => 'datetime', 'null' => true],

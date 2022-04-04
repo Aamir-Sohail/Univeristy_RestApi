@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Controllers\BaseController;
 use App\Models\StudentModel;
+use App\Models\CourseModel;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\RESTful\ResourceController;
 
@@ -106,12 +107,41 @@ class StudentController extends ResourceController
         // } catch (Exception $e) {
         //     var_dump($e);
         // }
-        // return $this->respondCreated($response);
+        return $this->respondCreated($response);
      
            
        
 }
+           public function std_viewall()
+           {
+            $courseModel = new CourseModel();
+            $response = [
+                'Message' => 'All Data',
+                'data' => $courseModel->findAll()
+            ];
+            return $this->respondCreated($response);
+           }
 
+
+
+           public function std_view($id = null)
+           {
+                 
+            $courseModel = new CourseModel();
+            $data = $courseModel->find($id);
+            if (!empty($data)) {
+                $response = [
+                    'Message' => 'Single Data',
+                    'data' => $data
+                ];
+            } else {
+                $response = [
+                    'Message' => 'No Data Found',
+                ];
+            }
+            return $this->respondCreated($response);
+
+           }
 }
 
 
