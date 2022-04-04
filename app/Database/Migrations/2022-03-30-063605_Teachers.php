@@ -10,7 +10,7 @@ class Teachers extends Migration
     {
         $this->forge->addField([
             'id'         => ['type' => 'INT', 'constraint' => 31, 'auto_increment'=> true, 'unsinged'=>true,],
-            'course_id'      => ['type' => 'varchar', 'constraint' => 31],
+
             'name'      => ['type' => 'varchar', 'constraint' => 31],
             'email'      => ['type' => 'varchar', 'constraint' => 31],
             'password'      => ['type' => 'varchar', 'constraint' => 31],

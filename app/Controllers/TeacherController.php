@@ -85,9 +85,9 @@ class TeacherController extends ResourceController
                 "required" => "Password is Required"
             ],
         ];
-        try {
-            // var_dump($this->request->getJSON());
-            // die;
+        // try {
+            var_dump($this->request->getJSON());
+            die;
 
             if (!$this->validate($rules, $message)) {
                 $response = [
@@ -99,13 +99,13 @@ class TeacherController extends ResourceController
                 if ($user) {
                     $this->session->set('user', $user);
                     $response = [
-                        'message' => 'SuccessFully Register',
+                        'message' => 'SuccessFully Login',
                     ];
                 }
             }
-        } catch (Exception $e) {
-            var_dump($e);
-        }
-        return $this->respondCreated($response);
+        // } catch (Exception $e) {
+        //     var_dump($e);
+        // }
+        return $this->respond($response);
     }
 }

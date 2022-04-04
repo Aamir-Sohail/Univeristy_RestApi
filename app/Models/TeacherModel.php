@@ -15,7 +15,7 @@ class TeacherModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'course_id', 'name', 'email','password','address'
+         'name', 'email','password','address'
     ];
 
     // Dates

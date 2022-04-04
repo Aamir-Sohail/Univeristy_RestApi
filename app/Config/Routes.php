@@ -44,6 +44,9 @@ $routes->delete('/delete/(:num)','CourseController::course_delete/$1');
 $routes->post('/register','TeacherController::Teacher_Register');
 $routes->post('/login','TeacherController::Teacher_Login');
 
+// Students Routes For Projects..
+$routes->post('/std_register','StudentController::student_register');
+$routes->post('/std_login','StudentController::student_login');
 
 
 /*

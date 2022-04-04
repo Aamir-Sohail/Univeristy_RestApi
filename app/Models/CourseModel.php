@@ -15,7 +15,7 @@ class CourseModel extends Model
     protected $useSoftDeletes   = false;
     protected $protectFields    = true;
     protected $allowedFields    = [
-        'coursename','leactures_course','created_at','updated_at', 'deleted_at'
+      'teacher_id',  'coursename','leactures_course','created_at','updated_at', 'deleted_at'
     ];
 
     // Dates

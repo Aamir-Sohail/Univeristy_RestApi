@@ -74,7 +74,7 @@ class CourseController extends ResourceController
         $courseModel = new CourseModel();
         $response = [
             'Message' => 'All Data',
-            $data = $courseModel->findAll()
+            'data' => $courseModel->findAll()
         ];
         return $this->respondCreated($response);
     }
@@ -130,6 +130,6 @@ class CourseController extends ResourceController
                 'message' => 'No Data is Found',
             ];
         }
-        return $this->respondCreated($reponse);
+        return $this->respond($reponse);
     }
 }

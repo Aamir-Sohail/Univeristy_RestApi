@@ -10,6 +10,7 @@ class Courses extends Migration
 
     $this->forge->addField([
         'id'         => ['type' => 'INT', 'constraint' => 31, 'auto_increment'=> true, 'unsinged'=>true,],
+        'teacher_id'      => ['type' => 'varchar', 'constraint' => 31],
         'coursename'      => ['type' => 'varchar', 'constraint' => 31],
         'leactures_course'      => ['type' => 'varchar', 'constraint' => 31],
         'created_at' => ['type' => 'datetime', 'null' => true],
