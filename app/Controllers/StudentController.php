@@ -142,6 +142,25 @@ class StudentController extends ResourceController
             return $this->respondCreated($response);
 
            }
-}
+
+           public function un_register($id = null)
+
+           {
+            $courseModel = new CourseModel();
+            if (!empty($id)) {
+                $courseModel->delete($id);
+                $reponse = [
+                    'message' => 'Course Is SuccessFully Unregister',
+                ];
+            } else {
+                $reponse = [
+                    'message' => 'No Course is Found',
+                ];
+            }
+            return $this->respond($reponse);
+        }
+               
+           }
+
 
 

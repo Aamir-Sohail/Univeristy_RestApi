@@ -48,8 +48,8 @@ $routes->post('/login','TeacherController::Teacher_Login');
 $routes->post('/std_register','StudentController::student_register');
 $routes->post('/std_login','StudentController::student_login');
 $routes->get('/view_all','StudentController::std_viewall');
-$routes->get('/view','StudentController::std_view');
-
+$routes->get('/view/(:num)','StudentController::std_view/$1');
+$routes->delete('/unregister/(:num)','StudentController::un_register/$1');
 
 /*
  * --------------------------------------------------------------------
