@@ -24,16 +24,14 @@ class TeacherController extends ResourceController
     public function Teacher_Register()
     {
         $rules = [
-            'course_id' => "required",
+    
             'name' => "required",
             'email' => "required|valid_email|trim",
             'password' => "required",
             'address' => "required",
         ];
         $message = [
-            "course_id" => [
-                "required" => "ID is Required"
-            ],
+            
             "name" => [
                 "required" => "Name is Required"
             ],
@@ -54,7 +52,7 @@ class TeacherController extends ResourceController
             ];
         } else {
             $teacherModel = new TeacherModel();
-            $data['course_id'] = $this->request->getVar("course_id");
+         
             $data['name'] = $this->request->getVar("name");
             $data['email'] = $this->request->getVar("email");
             $data['password'] = $this->request->getVar("password");

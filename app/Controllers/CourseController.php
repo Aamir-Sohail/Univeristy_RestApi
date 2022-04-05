@@ -21,17 +21,18 @@ class CourseController extends ResourceController
     public function course_add()
     {
         $rules = [
-            'coursename' => "required",
             'teacher_id' => "required",
+            'coursename' => "required",    
             'leactures_course' => "required",
         ];
         $message = [
-            "coursename" => [
-                "required" => "CourseName is Required"
-            ],
             "teacher_id" =>[
                 "required" =>"Teacher ID is Required"
             ],
+            "coursename" => [
+                "required" => "CourseName is Required"
+            ],
+            
             "leactures_course" => [
                 "required" => "leactures_course is Required"
             ],
@@ -45,13 +46,13 @@ class CourseController extends ResourceController
             ];
         } else {
             $courseModel = new CourseModel();
-            $data['coursename'] = $this->request->getVar("coursename");
             $data['teacher_id'] = $this->request->getVar("teacher_id");
+            $data['coursename'] = $this->request->getVar("coursename");
             $data['leactures_course'] = $this->request->getVar("leactures_course");
             $courseModel->save($data);
             $response = [
 
-                'message' => 'Data is Successfully Added',
+                'message' => 'Course is Successfully Added',
 
             ];
         }
