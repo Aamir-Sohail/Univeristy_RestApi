@@ -25,8 +25,12 @@ class Auth implements FilterInterface
      */
     public function before(RequestInterface $request, $arguments = null)
     {
+        // var_dump($request);
+        // die;
         if(!session()->get('isLoggedIn')){
-            return redirect()->to('/register');
+            return json_encode(
+                ['error'=>"user not loged"]
+            );
         }
     }
 

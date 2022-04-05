@@ -12,6 +12,9 @@ class CourseController extends ResourceController
     public function __construct()
     {
         $courseModel = new CourseModel();
+        if(!session()->get('isLoggedIn')){
+             redirect()->to('/register');
+        }
     }
     use ResponseTrait;
     public function index()
@@ -117,7 +120,7 @@ class CourseController extends ResourceController
                 ];
             } else {
                 $response = [
-                    'message' => 'No Data Found',
+                    'message' => 'No Course Found',
                 ];
             }
         }

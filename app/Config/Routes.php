@@ -34,7 +34,7 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Home::index');
 
 //Course Routes For Projects
-$routes->post('/add','CourseController::course_add',['filter'=>'Auth']);
+$routes->post('/add','CourseController::course_add');
 $routes->get('/find/(:num)','CourseController::course_view_single/$1',['filter'=>'Auth']);
 $routes->get('/findall','CourseController::view_all_data',['filter'=>'Auth']);
 $routes->put('/updated/(:num)','CourseController::course_update/$1',['filter'=>'Auth']);
