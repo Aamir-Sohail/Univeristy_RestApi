@@ -34,18 +34,18 @@ $routes->setAutoRoute(true);
 $routes->get('/', 'Home::index');
 
 //Course Routes For Projects
-$routes->post('/add','CourseController::course_add');
-$routes->get('/find/(:num)','CourseController::course_view_single/$1');
-$routes->get('/findall','CourseController::view_all_data');
-$routes->put('/updated/(:num)','CourseController::course_update/$1');
-$routes->delete('/delete/(:num)','CourseController::course_delete/$1');
+$routes->post('/add','CourseController::course_add',['filter'=>'Auth']);
+$routes->get('/find/(:num)','CourseController::course_view_single/$1',['filter'=>'Auth']);
+$routes->get('/findall','CourseController::view_all_data',['filter'=>'Auth']);
+$routes->put('/updated/(:num)','CourseController::course_update/$1',['filter'=>'Auth']);
+$routes->delete('/delete/(:num)','CourseController::course_delete/$1',['filter'=>'Auth']);
 
 // Teacher Routes For Projects..
 $routes->post('/register','TeacherController::Teacher_Register');
 $routes->post('/login','TeacherController::Teacher_Login');
 
 // Students Routes For Projects..
-$routes->post('/std_register','StudentController::student_register',['filter'=>'auth']);
+$routes->post('/std_register','StudentController::student_register');
 $routes->post('/std_login','StudentController::student_login');
 $routes->get('/view_all','StudentController::std_viewall');
 $routes->get('/view/(:num)','StudentController::std_view/$1');
