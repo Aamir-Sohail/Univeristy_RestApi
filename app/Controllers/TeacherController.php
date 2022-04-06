@@ -17,7 +17,7 @@ class TeacherController extends ResourceController
     public function __construct()
     {
         $this->teacherModel = new TeacherModel();
-        $this->session = Services ::session();
+        $this->session = Services::session();
         $this->db = db_connect();
     }
     use ResponseTrait;
@@ -68,7 +68,8 @@ class TeacherController extends ResourceController
         return $this->respondCreated($response);
     }
 
-    public function loginForm(){
+    public function loginForm()
+    {
 
         return view('login');
     }
@@ -100,7 +101,7 @@ class TeacherController extends ResourceController
             ];
         } else {
             $user = $this->teacherModel->authenticate($this->request->getPost());
-           
+
             if ($user) {
                 $this->session->set('user', $user);
                 $this->session->set('userrole', 'teacher');
@@ -113,17 +114,5 @@ class TeacherController extends ResourceController
         //     var_dump($e);
         // }
         return $this->respond($response);
-        // var_dump($this->request->getPost());
-        // die;
-        // $user = $this->teacherModel->authenticate($this->request->getPost());
-
-        // if ($user) {
-        //     $this->session->set('user', $user);
-        //     $this->session->set('userrole', 'teacher');
-        //     return redirect()->to('/');
-        // }
-
-       
-    
     }
 }

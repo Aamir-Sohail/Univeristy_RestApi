@@ -27,8 +27,8 @@ class Filters extends BaseConfig
         'secureheaders' => SecureHeaders::class,
       
         'auth' => \App\Filters\Auth::class,
-        'Nonauth' => \App\Filters\NonAuth::class,
-        // 'students' => Student::class,
+       
+         'student' => \App\Filters\Student::class,
        
     ];
 

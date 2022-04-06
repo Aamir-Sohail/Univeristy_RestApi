@@ -35,10 +35,10 @@ $routes->get('/', 'Home::index');
 
 //Course Routes For Projects
 $routes->post('/add','CourseController::course_add',['filter'=>'auth']);
-$routes->get('/find/(:num)','CourseController::course_view_single/$1');
-$routes->get('/findall','CourseController::view_all_data');
-$routes->put('/updated/(:num)','CourseController::course_update/$1');
-$routes->delete('/delete/(:num)','CourseController::course_delete/$1');
+$routes->get('/find/(:num)','CourseController::course_view_single/$1',['filter'=>'auth']);
+$routes->get('/findall','CourseController::view_all_data',['filter'=>'auth']);
+$routes->put('/updated/(:num)','CourseController::course_update/$1',['filter'=>'auth']);
+$routes->delete('/delete/(:num)','CourseController::Delete/$1',['filter'=>'auth']);
 
 // Teacher Routes For Projects..
 $routes->post('/register','TeacherController::Teacher_Register');
@@ -49,9 +49,9 @@ $routes->post('/login','TeacherController::Teacher_Login');
 // Students Routes For Projects..
 $routes->post('/std_register','StudentController::student_register');
 $routes->post('/std_login','StudentController::student_login');
-$routes->get('/view_all','StudentController::std_viewall');
-$routes->get('/view/(:num)','StudentController::std_view/$1');
-$routes->delete('/unregister/(:num)','StudentController::un_register/$1');
+$routes->get('/view_all','StudentController::std_viewall',['filter'=>'student']);
+$routes->get('/view/(:num)','StudentController::std_view/$1',['filter'=>'student']);
+$routes->delete('/unregister/(:num)','StudentController::un_register/$1',['filter'=>'student']);
 
 /*students
  * --------------------------------------------------------------------

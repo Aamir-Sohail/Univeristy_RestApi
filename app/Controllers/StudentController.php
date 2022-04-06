@@ -99,6 +99,7 @@ class StudentController extends ResourceController
                   
                     if ($user) {
                         $this->session->set('user', $user);
+                        $this->session->set('userrole', 'student');
                         $response = [
                             'message' => 'Student SuccessFully Login',
                         ];
