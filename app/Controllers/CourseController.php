@@ -12,9 +12,9 @@ class CourseController extends ResourceController
     public function __construct()
     {
         $courseModel = new CourseModel();
-        if(!session()->get('isLoggedIn')){
-             redirect()->to('/register');
-        }
+        // if(!session()->get('isLoggedIn')){
+        //      redirect()->to('/register');
+        // }
     }
     use ResponseTrait;
     public function index()

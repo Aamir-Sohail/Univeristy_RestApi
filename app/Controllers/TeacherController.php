@@ -7,6 +7,7 @@ use App\Models\TeacherModel;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\RESTful\ResourceController;
 use Exception;
+use Config\Services;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
 
 
@@ -16,6 +17,8 @@ class TeacherController extends ResourceController
     public function __construct()
     {
         $this->teacherModel = new TeacherModel();
+        $this->session = Services ::session();
+        $this->db = db_connect();
     }
     use ResponseTrait;
     public function index()
@@ -24,14 +27,14 @@ class TeacherController extends ResourceController
     public function Teacher_Register()
     {
         $rules = [
-    
+
             'name' => "required",
             'email' => "required|valid_email|trim",
             'password' => "required",
             'address' => "required",
         ];
         $message = [
-            
+
             "name" => [
                 "required" => "Name is Required"
             ],
@@ -52,7 +55,7 @@ class TeacherController extends ResourceController
             ];
         } else {
             $teacherModel = new TeacherModel();
-         
+
             $data['name'] = $this->request->getVar("name");
             $data['email'] = $this->request->getVar("email");
             $data['password'] = $this->request->getVar("password");
@@ -65,6 +68,10 @@ class TeacherController extends ResourceController
         return $this->respondCreated($response);
     }
 
+    public function loginForm(){
+
+        return view('login');
+    }
     public function Teacher_Login()
     {
         $rules = [
@@ -84,26 +91,39 @@ class TeacherController extends ResourceController
             ],
         ];
         // try {
-            var_dump($this->request->getJSON());
-            die;
+        // var_dump($this->request->getJSON());
+        // die;
 
-            if (!$this->validate($rules, $message)) {
+        if (!$this->validate($rules, $message)) {
+            $response = [
+                'message' => $this->validator->getError(),
+            ];
+        } else {
+            $user = $this->teacherModel->authenticate($this->request->getPost());
+           
+            if ($user) {
+                $this->session->set('user', $user);
+                $this->session->set('userrole', 'teacher');
                 $response = [
-                    'message' => $this->validator->getError(),
+                    'message' => 'Teacher SuccessFully Login',
                 ];
-            } else {
-                $user = $this->teacherModel->authenticate($this->request->getJSON());
-                $session = session();
-                if ($user) {
-                    $this->session->set('user', $user);
-                    $response = [
-                        'message' => 'SuccessFully Login',
-                    ];
-                }
             }
+        }
         // } catch (Exception $e) {
         //     var_dump($e);
         // }
         return $this->respond($response);
+        // var_dump($this->request->getPost());
+        // die;
+        // $user = $this->teacherModel->authenticate($this->request->getPost());
+
+        // if ($user) {
+        //     $this->session->set('user', $user);
+        //     $this->session->set('userrole', 'teacher');
+        //     return redirect()->to('/');
+        // }
+
+       
+    
     }
 }

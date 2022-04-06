@@ -67,62 +67,50 @@ class StudentController extends ResourceController
         }
         return $this->respondCreated($response);
     }
-
     public function student_login() 
-    {
-        $rules = [
-
-
-            'email' => "required|valid_email|trim",
-            'password' => "required",
-
-        ];
-        $message = [
-
-            "email" => [
-                "required" => "Email is Required"
-            ],
-            "password" => [
-                "required" => "Password is Required"
-            ],
-        ];
-        // try {
-            // var_dump($this->request->getJSON());
-            // die;
-
-            if (!$this->validate($rules, $message)) {
-                $response = [
-                    'message' => $this->validator->getError(),
-                ];
-            } else {
-                $user = $this->teacherModel->authenticate($this->request->getJSON());
-                $session = session();
-                if ($user) {
-                    $this->session->set('user', $user);
-                    $response = [
-                        'message' => 'SuccessFully Login',
-                    ];
-                }
-            }
-        // } catch (Exception $e) {
-        //     var_dump($e);
-        // }
-        return $this->respondCreated($response);
-     
-           
-       
-}
-           public function std_viewall()
-           {
-            $courseModel = new CourseModel();
-            $response = [
-                'Message' => 'All Data',
-                'data' => $courseModel->findAll()
+    
+        {
+            $rules = [
+    
+    
+                'email' => "required|valid_email|trim",
+                'password' => "required",
+    
             ];
-            return $this->respondCreated($response);
-           }
-
-
+            $message = [
+    
+                "email" => [
+                    "required" => "Email is Required"
+                ],
+                "password" => [
+                    "required" => "Password is Required"
+                ],
+            ];
+            // try {
+                // var_dump($this->request->getJSON());
+                // die;
+    
+                if (!$this->validate($rules, $message)) {
+                    $response = [
+                        'message' => $this->validator->getError(),
+                    ];
+                } else {
+                    $user = $this->studentModel->authenticate($this->request->getPost());
+                  
+                    if ($user) {
+                        $this->session->set('user', $user);
+                        $response = [
+                            'message' => 'Student SuccessFully Login',
+                        ];
+                    }
+                   
+                }
+            // } catch (Exception $e) {
+            //     var_dump($e);
+            // }
+            return $this->respond($response);
+        }
+    
 
            public function std_view($id = null)
            {
