@@ -69,48 +69,47 @@ class StudentController extends ResourceController
     }
     public function student_login() 
     
-        {
-            $rules = [
-    
-    
-                'email' => "required|valid_email|trim",
-                'password' => "required",
-    
+    {
+        $rules = [
+
+
+            'email' => "required|valid_email|trim",
+            'password' => "required",
+
+        ];
+        $message = [
+
+            "email" => [
+                "required" => "Email is Required"
+            ],
+            "password" => [
+                "required" => "Password is Required"
+            ],
+        ];
+        // try {
+        // var_dump($this->request->getJSON());
+        // die;
+
+        if (!$this->validate($rules, $message)) {
+            $response = [
+                'message' => $this->validator->getError(),
             ];
-            $message = [
-    
-                "email" => [
-                    "required" => "Email is Required"
-                ],
-                "password" => [
-                    "required" => "Password is Required"
-                ],
-            ];
-            // try {
-                // var_dump($this->request->getJSON());
-                // die;
-    
-                if (!$this->validate($rules, $message)) {
-                    $response = [
-                        'message' => $this->validator->getError(),
-                    ];
-                } else {
-                    $user = $this->studentModel->authenticate($this->request->getPost());
-                  
-                    if ($user) {
-                        $this->session->set('user', $user);
-                        $this->session->set('userrole', 'student');
-                        $response = [
-                            'message' => 'Student SuccessFully Login',
-                        ];
-                    }
-                   
-                }
-            // } catch (Exception $e) {
-            //     var_dump($e);
-            // }
-            return $this->respond($response);
+        } else {
+            $user = $this->teacherModel->authenticate($this->request->getPost());
+
+            if ($user) {
+                // $this->session->set('user', $user);
+                // $this->session->set('userrole', 'student');
+                $response = [
+                    'message' => 'Student is SuccessFully Login',
+                ];
+            }
         }
+        // } catch (Exception $e) {
+        //     var_dump($e);
+        // }
+        return $this->respond($response);
+    }
     
 
            public function std_view($id = null)
@@ -147,6 +146,14 @@ class StudentController extends ResourceController
                 ];
             }
             return $this->respond($reponse);
+        }
+        public function Student_logout()
+        
+        {
+            $this->session->remove('user');
+            // $this->session->destroy();
+            
+            return redirect()->to('std_login');
         }
                
            }

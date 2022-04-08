@@ -6,6 +6,7 @@ use App\Controllers\BaseController;
 use App\Models\CourseModel;
 use CodeIgniter\API\ResponseTrait;
 use CodeIgniter\RESTful\ResourceController;
+use Exception;
 
 class CourseController extends ResourceController
 {
@@ -24,14 +25,14 @@ class CourseController extends ResourceController
     public function course_add()
     {
         $rules = [
-            'teacher_id' => "required",
+            // 'teacher_id' => "required",
             'coursename' => "required",
             'leactures_course' => "required",
         ];
         $message = [
-            "teacher_id" => [
-                "required" => "Teacher ID is Required"
-            ],
+            // "teacher_id" => [
+            //     "required" => "Teacher ID is Required"
+            // ],
             "coursename" => [
                 "required" => "CourseName is Required"
             ],
@@ -40,26 +41,36 @@ class CourseController extends ResourceController
                 "required" => "leactures_course is Required"
             ],
         ];
+        // try{
         if (!$this->validate($rules, $message)) {
             $response = [
 
                 'message' => $this->validator->getError(),
-
+              
 
             ];
+        
         } else {
             $courseModel = new CourseModel();
-            $data['teacher_id'] = $this->request->getVar("teacher_id");
+            $teachers =  session()->get('user');
+            $data['teacher_id']  = $teachers['id'];
+            // $data['teacher_id'] = $this->request->getVar("teacher_id");
             $data['coursename'] = $this->request->getVar("coursename");
             $data['leactures_course'] = $this->request->getVar("leactures_course");
             $courseModel->save($data);
+            
             $response = [
 
                 'message' => 'Course is Successfully Added',
 
             ];
-        }
 
+        }
+    // }catch(Exception $e){
+
+    //     var_dump($e);
+    //     die;
+    // }
         return $this->respondCreated($response);
     }
     public function course_view_single($id = null)

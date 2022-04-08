@@ -9,7 +9,7 @@ use CodeIgniter\RESTful\ResourceController;
 use Exception;
 use Config\Services;
 use phpDocumentor\Reflection\DocBlock\Tags\Return_;
-
+use \Firebase\JWT\JWT;
 
 class TeacherController extends ResourceController
 {
@@ -26,93 +26,81 @@ class TeacherController extends ResourceController
     }
     public function Teacher_Register()
     {
-        $rules = [
-
-            'name' => "required",
-            'email' => "required|valid_email|trim",
-            'password' => "required",
-            'address' => "required",
-        ];
-        $message = [
-
-            "name" => [
-                "required" => "Name is Required"
-            ],
-            "email" => [
-                "required" => "Email is Required"
-            ],
-            "password" => [
-                "required" => "Password is Required"
-            ],
-            "address" => [
-                "required" => "Address is Required"
-            ],
-        ];
-        if (!$this->validate($rules, $message)) {
-            $response = [
-
-                'message' => $this->validator->getError(),
-            ];
-        } else {
-            $teacherModel = new TeacherModel();
-
-            $data['name'] = $this->request->getVar("name");
-            $data['email'] = $this->request->getVar("email");
-            $data['password'] = $this->request->getVar("password");
-            $data['address'] = $this->request->getVar("address");
-            $teacherModel->save($data);
-            $response = [
-                'message' => 'SuccessFully Register',
-            ];
-        }
-        return $this->respondCreated($response);
+    //   try{
+		helper(['form']);
+		$rules = [
+            'name' => 'required',
+			'email' => 'required|valid_email',
+			'password' => 'required|min_length[6]',
+            'address' => 'required',
+		];
+		if(!$this->validate($rules)) return $this->fail($this->validator->getErrors());
+		$data = [
+            'name' => $this->request->getVar('name'),
+			'email' 	=> $this->request->getVar('email'),
+			'password'  => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT),
+            'address' => $this->request->getVar('address')
+		];
+		$teacherModel = new TeacherModel();
+		$register = $teacherModel->save($data);
+		$this->respondCreated($register);
+    // }catch(Exception $aamir){
+    //     var_dump($aamir);
+    //     die;
+    // }
     }
-
-    public function loginForm()
-    {
-
-        return view('login');
-    }
+    
+    
+    
     public function Teacher_Login()
     {
-        $rules = [
-
-
-            'email' => "required|valid_email|trim",
-            'password' => "required",
-
-        ];
-        $message = [
-
-            "email" => [
-                "required" => "Email is Required"
-            ],
-            "password" => [
-                "required" => "Password is Required"
-            ],
-        ];
-        // try {
-        // var_dump($this->request->getJSON());
-        // die;
-
-        if (!$this->validate($rules, $message)) {
-            $response = [
-                'message' => $this->validator->getError(),
-            ];
-        } else {
-            $user = $this->teacherModel->authenticate($this->request->getPost());
-
-            if ($user) {
-                $this->session->set('user', $user);
-                $this->session->set('userrole', 'teacher');
-                $response = [
-                    'message' => 'Teacher SuccessFully Login',
-                ];
-            }
+        $teacherModel = new TeacherModel();
+        $email = $this->request->getVar('email');
+        $password = $this->request->getVar('password');
+          
+        $user = $teacherModel->where('email', $email)->first();
+        // $user = $this->teacherModel->authenticate($this->request->getPost());
+  
+        if(is_null($user)) {
+            return $this->respond(['error' => 'Invalid username or password.'], 401);
         }
-        // } catch (Exception $e) {
-        //     var_dump($e);
-        // }
-        return $this->respond($response);
+        // var_dump($user);
+        // die;
+  
+        $pwd_verify = password_verify($password, $user['password']);
+  
+        if(!$pwd_verify) {
+            return $this->respond(['error' => 'Invalid username or password.'], 401);
+        }
+ 
+        $key = getenv('JWT_SECRET');
+        $iat = time(); // current timestamp value
+        $exp = $iat + 3600;
+ 
+        $payload = array(
+            "iss" => "Issuer of the JWT",
+            "aud" => "Audience that the JWT",
+            "sub" => "Subject of the JWT",
+            "iat" => $iat, //Time the JWT issued at
+            "exp" => $exp, // Expiration time of token
+            "email" => $user['email'],
+        );
+         
+        $token = JWT::encode($payload, $key,'HS256');
+ 
+        $response = [
+            'message' => 'Login Succesful',
+            'token' => $token
+        ];
+         
+        return $this->respond($response, 200);
+    
+    }
+    public function Teacher_logout()
+        
+    {
+        $this->session->remove('user');
+        
+        return redirect()->to('/login');
     }
 }
