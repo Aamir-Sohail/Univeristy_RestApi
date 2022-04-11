@@ -13,14 +13,14 @@ use \Firebase\JWT\JWT;
 
 class TeacherController extends ResourceController
 {
-
+    use ResponseTrait;
     public function __construct()
     {
         $this->teacherModel = new TeacherModel();
         $this->session = Services::session();
         $this->db = db_connect();
     }
-    use ResponseTrait;
+    
     public function index()
     {
     }
@@ -38,7 +38,7 @@ class TeacherController extends ResourceController
 		$data = [
             'name' => $this->request->getVar('name'),
 			'email' 	=> $this->request->getVar('email'),
-			'password'  => password_hash($this->request->getVar('password'), PASSWORD_BCRYPT),
+			'password'  => password_hash($this->request->getVar('password'), PASSWORD_DEFAULT),
             'address' => $this->request->getVar('address')
 		];
 		$teacherModel = new TeacherModel();
@@ -53,27 +53,26 @@ class TeacherController extends ResourceController
     
     
     public function Teacher_Login()
-    {
-        $teacherModel = new TeacherModel();
+    { 	$teacherModel = new TeacherModel();
         $email = $this->request->getVar('email');
         $password = $this->request->getVar('password');
           
         $user = $teacherModel->where('email', $email)->first();
-        // $user = $this->teacherModel->authenticate($this->request->getPost());
   
         if(is_null($user)) {
-            return $this->respond(['error' => 'Invalid username or password.'], 401);
+            return $this->respond(['error' => 'User is Not Found.'], 401);
         }
-        // var_dump($user);
-        // die;
-  
+//   var_dump($user);
+//   die;
         $pwd_verify = password_verify($password, $user['password']);
-  
+
         if(!$pwd_verify) {
             return $this->respond(['error' => 'Invalid username or password.'], 401);
+            // var_dump($pwd_verify);
+            //  die;
         }
  
-        $key = getenv('JWT_SECRET');
+        $key = getenv('TOKEN_SECRET');
         $iat = time(); // current timestamp value
         $exp = $iat + 3600;
  
@@ -84,7 +83,10 @@ class TeacherController extends ResourceController
             "iat" => $iat, //Time the JWT issued at
             "exp" => $exp, // Expiration time of token
             "email" => $user['email'],
-        );
+          
+        ); 
+        //  var_dump($user);
+        // die;
          
         $token = JWT::encode($payload, $key,'HS256');
  
